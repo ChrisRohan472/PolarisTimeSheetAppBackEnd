@@ -1,66 +1,89 @@
 package com.example.demo;
 
 import java.util.List;
-import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
-
+import com.example.demo.entity.UserAdmin;
 import com.example.demo.entity.Users;
+import com.example.demo.repository.UserAdminRepository;
 import com.example.demo.repository.UserRepository;
+import com.example.demo.service.UserAdminService;
 import com.example.demo.service.UserService;
 
 
-
+@CrossOrigin ("http://localhost:3000/")
 @RestController
 public class Mynewcontroller {
 	
-	@Autowired
-	UserService us;
-	
-	@Autowired 
-	Users emp;
 	
 	@Autowired
-	UserRepository ur;
+	UserService userService;
 	
-	@PostMapping("/create")
+	@Autowired
+	UserAdminService userAdminService;
+	
+	@Autowired
+	UserRepository userRepository;
+	
+	@Autowired
+	UserAdminRepository userAdminRep;
+	
+
+	//Responsible for the Authenticate User In UserTable.
+	@PostMapping("/auth")
 	@ResponseBody
-	public String create(@RequestBody Users u)
-	{
-		us.create(u.getUserid(), u.getPassword(), u.getRole());
-		return "Account Created" + u.getUserid()+ " "+  u.getPassword();
-	}
-	
-	@GetMapping("/auth")
 	public String auth(@RequestBody Users u)
 	{
-		return us.Auth(u.getUserid(), u.getPassword());
+		return userService.Auth(u.getUserid(), u.getPassword());
 	}
 	
-	@GetMapping("/getall")
-	public List<Users> getall()
+//	Function Responsible for the adding new Request to UserAdmin Table.
+	@PostMapping("/AddUserAdminTable")
+	public String Create(@RequestBody UserAdmin u)
 	{
-		return us.getAll();
+		userAdminService.add(u.getUserid(), u.getName(), u.getRole());	
+		return "updated";
 	}
 	
-	@GetMapping("/getbyid")
-	public Optional<Users> getbyid(@RequestParam int id)
+		
+// Responsible for Adding or Removing Access from User table.Confirm Button Maps to this Function
+	@PostMapping("/UpdateUserAdmin")
+	public String update(@RequestBody UserAdmin ua)
 	{
-		return us.findById(id);
+		
+		return userAdminService.update(ua.getUserid(),ua.getRole(),ua.getStatus());
+		
 	}
 	
-	@GetMapping("/getbyuserid")
-	public List<Users> getbyuserid(@RequestParam String userid)
+//	Returns all datas in the UserAdmin Table to the UserDashboard Page.
+	@GetMapping("/requestUserAdmin")
+	public List<UserAdmin> request()
 	{
-		return us.findByuserId(userid);
-	} 
+		return userAdminRep.findAllOrderByIdDesc();
+	}
+
+	
+//	@GetMapping("/getall")
+//	public List<Users> getall()
+//	{
+//		return us.getAll();
+//	}
+	
+//	@GetMapping("/getbyid")
+//	public Optional<Users> getbyid(@RequestParam int id)
+//	{
+//		return us.findById(id);
+//	}
+
+	
+
+	
+
 	
 }

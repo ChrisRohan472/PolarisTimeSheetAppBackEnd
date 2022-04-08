@@ -2,12 +2,6 @@ package com.example.demo.service;
 
 import java.util.List;
 import java.util.Optional;
-import java.util.stream.Collector;
-import java.util.stream.Collectors;
-
-import javax.annotation.PostConstruct;
-
-import org.apache.catalina.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -29,9 +23,13 @@ public class UserService {
 		if(u.isPresent())
 		{Users us=u.get();
 			if(us.getPassword().equals(password))
-			return "Logged In As "+us.getRole();
-			else
+			{
+				return us.getRole();
+			}
+			else 
+			{
 				return "Invalid Password";
+			}	
 		}
 		else
 			return "Invalid Username";
@@ -40,11 +38,17 @@ public class UserService {
 
 	public void create(String userid,String password, String Role)
 	{
-		user.setUserid(userid);
-		user.setPassword(password);
-		user.setRole(Role);
-		usersrep.save(user);
+			Users u1 = new Users();
+			u1.setUserid(userid);
+			u1.setPassword("Admin1234");
+			u1.setRole(Role);
+			usersrep.save(u1);
 		
+	}
+	
+	public void delete(Users u)
+	{
+		usersrep.delete(u);
 	}
 	
 	public List<Users> getAll()
@@ -60,6 +64,8 @@ public class UserService {
 		 return usersrep.findAll().stream().filter(o -> o.getUserid().equals(userid)).toList();
 		
 	}
+	
+	
 
 	
 	
