@@ -1,15 +1,17 @@
 package com.example.demo.entity;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.SequenceGenerator;
 
 @Entity
 public class UserAdmin {
 	@Id
-	@GeneratedValue(generator="ua_seq")
-	@SequenceGenerator(name="ua_seq",initialValue=1001,allocationSize=1)
+	@GeneratedValue(strategy=GenerationType.AUTO)
+//	@SequenceGenerator(name="ua_seq",initialValue=1001,allocationSize=1)
 	private int id;
 	private String userid;
 	private String name;

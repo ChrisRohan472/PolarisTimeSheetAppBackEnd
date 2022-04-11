@@ -2,6 +2,7 @@ package com.example.demo.entity;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
@@ -10,8 +11,8 @@ import javax.persistence.Table;
 @Table(name="users")
 public class Users {
 	@Id
-	@GeneratedValue(generator="u_seq")
-	@SequenceGenerator(name="u_seq",initialValue=1001,allocationSize=1)
+	@GeneratedValue(strategy=GenerationType.AUTO)
+//	@SequenceGenerator(name="u_seq",initialValue=1001,allocationSize=1)
 	private int id;
 	private String userid;
 	private String password;

@@ -2,6 +2,8 @@ package com.example.demo;
 
 import java.util.List;
 
+import javax.servlet.http.HttpServletRequest;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -13,14 +15,17 @@ import com.example.demo.entity.UserAdmin;
 import com.example.demo.entity.Users;
 import com.example.demo.repository.UserAdminRepository;
 import com.example.demo.repository.UserRepository;
+import com.example.demo.security.JwtTokenUtil;
 import com.example.demo.service.UserAdminService;
 import com.example.demo.service.UserService;
 
 
-@CrossOrigin ("http://localhost:3000/")
+@CrossOrigin 
 @RestController
 public class Mynewcontroller {
-	
+
+	@Autowired
+	JwtTokenUtil jtw;
 	
 	@Autowired
 	UserService userService;
@@ -51,7 +56,21 @@ public class Mynewcontroller {
 		return "updated";
 	}
 	
+	@GetMapping("/requestRole")
+	public String requestRole(HttpServletRequest request)
+	{
+		String str=request.getHeader("Authorization");
+		String s=jtw.getUsernameFromToken(str.substring(7));
+		return userRepository.findAll().stream().filter(x->x.getUserid().equals(s)).findAny().get().getRole();
 		
+	}
+	@GetMapping("/requestUserId")
+	public String requestUser(HttpServletRequest request)
+	{
+		String str=request.getHeader("Authorization");
+		String s=jtw.getUsernameFromToken(str.substring(7));
+return s;		
+	}	
 // Responsible for Adding or Removing Access from User table.Confirm Button Maps to this Function
 	@PostMapping("/UpdateUserAdmin")
 	public String update(@RequestBody UserAdmin ua)
