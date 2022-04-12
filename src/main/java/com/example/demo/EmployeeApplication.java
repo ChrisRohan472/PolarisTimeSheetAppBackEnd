@@ -7,6 +7,7 @@ import org.springframework.context.annotation.ComponentScan;
 
 import com.example.demo.entity.ProjectDetails;
 import com.example.demo.entity.ProjectRequest;
+import com.example.demo.entity.ProjectResponse;
 import com.example.demo.entity.ResourceDetails;
 import com.example.demo.entity.ResourceProject;
 import com.example.demo.entity.TimeSheetDetails;
@@ -58,6 +59,12 @@ public class EmployeeApplication {
 	public TimeSheetDetails timeSheetDetails()
 	{
 		return new TimeSheetDetails();
+	}
+	
+	@Bean
+	public ProjectResponse projectResponse()
+	{
+		return new ProjectResponse();
 	}
 	public static void main(String[] args) {
 		SpringApplication.run(EmployeeApplication.class, args);

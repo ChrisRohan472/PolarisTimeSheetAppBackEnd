@@ -1,5 +1,6 @@
 package com.example.demo;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
@@ -86,7 +87,7 @@ public class Mynewcontroller {
 	{
 		String str=request.getHeader("Authorization");
 		String s=jtw.getUsernameFromToken(str.substring(7));
-return s;		
+		return s;		
 	}	
 // Responsible for Adding or Removing Access from User table.Confirm Button Maps to this Function
 	@PostMapping("/UpdateUserAdmin")
@@ -105,11 +106,13 @@ return s;
 	}
 	
 	
-//	@GetMapping("/GetProjectDetails")
-//	public List<TimeSheetDetails> getProjectDetails(@RequestBody ProjectRequest pr)
-//	{
-//		return projectService.response(pr.getProjectname(), pr.getStartdate(), pr.getEnddate());
-//	}
+	@PostMapping("/GetProjectDetails")
+	public List<ProjectResponse> getProjectDetails(@RequestBody ProjectRequest pr)
+	{
+		return projectService.response(pr.getProjectname(), pr.getStartdate(), pr.getEnddate());
+	}
+	
+	
 
 	
 //	@GetMapping("/getall")
