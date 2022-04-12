@@ -9,13 +9,22 @@ import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
+
+import com.example.demo.entity.ProjectDetails;
+import com.example.demo.entity.ProjectRequest;
+import com.example.demo.entity.ProjectResponse;
+import com.example.demo.entity.ResourceDetails;
+import com.example.demo.entity.ResourceProject;
+import com.example.demo.entity.TimeSheetDetails;
 import com.example.demo.entity.UserAdmin;
 import com.example.demo.entity.Users;
 import com.example.demo.repository.UserAdminRepository;
 import com.example.demo.repository.UserRepository;
 import com.example.demo.security.JwtTokenUtil;
+import com.example.demo.service.ProjectService;
 import com.example.demo.service.UserAdminService;
 import com.example.demo.service.UserService;
 
@@ -39,6 +48,14 @@ public class Mynewcontroller {
 	@Autowired
 	UserAdminRepository userAdminRep;
 	
+	@Autowired
+	ProjectService projectService;
+	
+	@Autowired
+	ProjectDetails projectDetails;
+	
+	@Autowired
+	ProjectRequest projectRequest;
 
 	//Responsible for the Authenticate User In UserTable.
 	@PostMapping("/auth")
@@ -86,6 +103,13 @@ return s;
 	{
 		return userAdminRep.findAllOrderByIdDesc();
 	}
+	
+	
+//	@GetMapping("/GetProjectDetails")
+//	public List<TimeSheetDetails> getProjectDetails(@RequestBody ProjectRequest pr)
+//	{
+//		return projectService.response(pr.getProjectname(), pr.getStartdate(), pr.getEnddate());
+//	}
 
 	
 //	@GetMapping("/getall")
